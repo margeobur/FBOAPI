@@ -13,9 +13,9 @@ namespace fboAPI.Controllers
     [ApiController]
     public class CustomerLinksController : ControllerBase
     {
-        private readonly FboAPIContext _context;
+        private readonly LinksContext _context;
 
-        public CustomerLinksController(FboAPIContext context)
+        public CustomerLinksController(LinksContext context)
         {
             _context = context;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using fboAPI.Data;
 using fboAPI.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -25,7 +26,7 @@ namespace fboAPI
 
                 try
                 {
-                    var context = services.GetRequiredService<FboAPIContext>();
+                    var context = services.GetRequiredService<LinksContext>();
                     context.Database.Migrate();
                     LinksSeedData.Initialize(services);
                 }

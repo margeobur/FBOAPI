@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace fboAPI.Models
 {
-    public class FboAPIContext : DbContext
+    public class LinksContext : DbContext
     {
-        public FboAPIContext (DbContextOptions<FboAPIContext> options)
+        public LinksContext (DbContextOptions<LinksContext> options)
             : base(options)
         {
         }

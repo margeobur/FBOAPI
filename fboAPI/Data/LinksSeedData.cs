@@ -1,18 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using fboAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace fboAPI.Models
+namespace fboAPI.Data
 {
     public class LinksSeedData
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            using (var context = new FboAPIContext(
-                serviceProvider.GetRequiredService<DbContextOptions<FboAPIContext>>()))
+            using (var context = new LinksContext(
+                serviceProvider.GetRequiredService<DbContextOptions<LinksContext>>()))
             {
                 if (context.CustomerLink.Count() > 0)
                 {

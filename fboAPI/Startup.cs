@@ -29,7 +29,7 @@ namespace fboAPI
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddDbContext<FboAPIContext>(options =>
+            services.AddDbContext<LinksContext>(options =>
                     options.UseSqlite(Configuration.GetConnectionString("fboAPIContext")));
         }
 

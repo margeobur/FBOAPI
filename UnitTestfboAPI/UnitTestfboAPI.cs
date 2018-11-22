@@ -14,19 +14,24 @@ namespace UnitTestfboAPI
     [TestClass]
     public class UnitTestfboAPI
     {
-        public static readonly DbContextOptions<FboAPIContext> options
-            = new DbContextOptionsBuilder<FboAPIContext>()
+        public static readonly DbContextOptions<LinksContext> options
+            = new DbContextOptionsBuilder<LinksContext>()
             .UseInMemoryDatabase(databaseName: "testDatabase")
             .Options;
         public static IConfiguration configuration = null;
 
+        private static readonly IList<int> oldIDs = new List<int> { 1643788, 4881095 };
+        private static readonly IList<string> newIDs = new List<string> { "0015-7983-2945", "0015-7899-6240" };
+
         [TestInitialize]
         public void SetupDb()
         {
-            using (var context = new FboAPIContext(options))
+            using (var context = new LinksContext(options))
             {
                 CustomerLink customer1 = new CustomerLink()
                 {
+                    NewID = newIDs[0],
+                    OldID = oldIDs[0],
                     OldData = {
                             Id = 1643788,
                             Username = "emusk10",
@@ -44,6 +49,7 @@ namespace UnitTestfboAPI
 
                 CustomerLink customer2 = new CustomerLink()
                 {
+                    OldID = oldIDs[1],
                     OldData = {
                             Id = 4881095,
                             Username = "jwhales29",
@@ -55,6 +61,7 @@ namespace UnitTestfboAPI
 
                 CustomerLink customer3 = new CustomerLink()
                 {
+                    NewID = newIDs[1],
                     NewData = {
                             Id = "0015-7899-6240",
                             Username = "jwhales29",
@@ -74,7 +81,7 @@ namespace UnitTestfboAPI
         [TestCleanup]
         public void ClearDb()
         {
-            using (var context = new FboAPIContext(options))
+            using (var context = new LinksContext(options))
             {
                 context.CustomerLink.RemoveRange(context.CustomerLink);
                 context.SaveChanges();
@@ -82,9 +89,20 @@ namespace UnitTestfboAPI
         }
 
         [TestMethod]
-        public async Task TestMethod1()
+        public async Task TestPutLinkNoContentResult()
         {
+            using (var linkContext = new LinksContext(options))
+            {
+                string newID = newIDs[1];
+                CustomerLink customer1 = linkContext.CustomerLink.Where(x => x.NewID == newIDs[1]).Single();
+                customer1.OldID = oldIDs[1];
 
+                CustomerLinksController linksController = new CustomerLinksController(linkContext);
+                IActionResult result = await linksController.PutCustomerLink(customer1.ID, customer1) as IActionResult;
+
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            }
         }
     }
 }
