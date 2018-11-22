@@ -15,7 +15,5 @@ namespace fboAPI.Models
 
         public int OldID { get; set; }
         public String NewID { get; set; }
-        public OldCustomer OldData { get; set; }
-        public NewCustomer NewData { get; set; }
     }
 }

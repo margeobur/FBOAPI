@@ -26,12 +26,13 @@ namespace UnitTestfboAPI
         [TestInitialize]
         public void SetupDb()
         {
+            System.Diagnostics.Debug.WriteLine("Here's the line before the previous statement");
+
             using (var context = new LinksContext(options))
             {
+                System.Diagnostics.Debug.WriteLine("Here's the line before the break");
                 CustomerLink customer1 = new CustomerLink()
                 {
-                    NewID = newIDs[0],
-                    OldID = oldIDs[0],
                     OldData = {
                             Id = 1643788,
                             Username = "emusk10",
@@ -103,6 +104,13 @@ namespace UnitTestfboAPI
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOfType(result, typeof(NoContentResult));
             }
+        }
+
+        public static void Main(string args)
+        {
+            UnitTestfboAPI tester = new UnitTestfboAPI();
+            tester.SetupDb();
+
         }
     }
 }

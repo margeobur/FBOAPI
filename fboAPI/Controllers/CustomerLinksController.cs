@@ -15,22 +15,26 @@ namespace fboAPI.Controllers
     public class CustomerLinksController : ControllerBase
     {
         private readonly LinksContext _context;
+        private readonly NewCustomersContext _newContext;
+        private readonly OldCustomersContext _oldContext;
 
-        public CustomerLinksController(LinksContext context)
+        public CustomerLinksController(LinksContext context, NewCustomersContext newContext, OldCustomersContext oldContext)
         {
             _context = context;
+            _newContext = newContext;
+            _oldContext = oldContext;
         }
 
         // GET: api/CustomerLinks
         [HttpGet]
-        public IEnumerable<CustomerLink> GetCustomerLink()
+        public IEnumerable<CombinedLink> GetCombinedLink()
         {
             return _context.CustomerLink;
         }
 
         // GET: api/CustomerLinks/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCustomerLink([FromRoute] Guid id)
+        public async Task<IActionResult> GetCombinedLink([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
@@ -49,7 +53,7 @@ namespace fboAPI.Controllers
 
         // PUT: api/CustomerLinks/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomerLink([FromRoute] Guid id, [FromBody] CustomerLink customerLink)
+        public async Task<IActionResult> PutCombinedLink([FromRoute] Guid id, [FromBody] CombinedLink customerLink)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +88,7 @@ namespace fboAPI.Controllers
 
         // POST: api/CustomerLinks
         [HttpPost]
-        public async Task<IActionResult> PostCustomerLink([FromBody] CustomerLink customerLink)
+        public async Task<IActionResult> PostCombinedLink([FromBody] CombinedLink customerLink)
         {
             if (!ModelState.IsValid)
             {
@@ -99,7 +103,7 @@ namespace fboAPI.Controllers
 
         // DELETE: api/CustomerLinks/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomerLink([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteCombinedLink([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
