@@ -13,7 +13,7 @@ namespace fboAPI.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid ID { set; get; }
 
-        public OldCustomer oldData { get; set; }
-        public NewCustomer newData { get; set; }
+        public OldCustomer OldData { get; set; }
+        public NewCustomer NewData { get; set; }
     }
 }

@@ -7,10 +7,10 @@ namespace fboAPI.Models
 {
     public class OldCustomer
     {
-        public int id { get; set; }
-        public string username { get; set; }
-        public string firstName { get; set; }
-        public string surname { get; set; }
-        public string address { get; set; }
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string Surname { get; set; }
+        public string Address { get; set; }
     }
 }

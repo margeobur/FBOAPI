@@ -9,9 +9,9 @@ namespace fboAPI.Models
     public class NewCustomer
     {
         [Key]
-        public string id { get; set; }
-        public string username { get; set; }
-        public string email { get; set; }
+        public string Id { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
 
         // Learnt how to wrap a list of primitives like this from this stackoverflow post:
         // https://stackoverflow.com/questions/20711986/entity-framework-code-first-cant-store-liststring/20712012

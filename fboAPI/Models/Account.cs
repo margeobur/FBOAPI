@@ -16,6 +16,6 @@ namespace fboAPI.Models
             get { return _id; }
         }
 
-        public string number { get; set; }
+        public string Number { get; set; }
     }
 }

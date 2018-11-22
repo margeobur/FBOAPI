@@ -14,28 +14,27 @@ namespace fboAPI.Models
             using (var context = new FboAPIContext(
                 serviceProvider.GetRequiredService<DbContextOptions<FboAPIContext>>()))
             {
-                // Look for any movies.
                 if (context.CustomerLink.Count() > 0)
                 {
-                    return;   // DB has been seeded
+                    return;
                 }
 
                 context.CustomerLink.AddRange(
                     new CustomerLink
                     {
-                        oldData = {
-                            id = 1643788,
-                            username = "emusk10",
-                            firstName = "Elon",
-                            surname = "Musk",
-                            address = "Los Angeles",
+                        OldData = {
+                            Id = 1643788,
+                            Username = "emusk10",
+                            FirstName = "Elon",
+                            Surname = "Musk",
+                            Address = "Los Angeles",
                         },
-                        newData = 
+                        NewData = 
                         {
-                            id = "0015-7983-2945",
-                            username = "elon_musk",
+                            Id = "0015-7983-2945",
+                            Username = "elon_musk",
                             GivenNames = {"Elon", "Reeve", "Musk" },
-                            email = "emusk@gmail.com"
+                            Email = "emusk@gmail.com"
                         }
                     }
                 );
