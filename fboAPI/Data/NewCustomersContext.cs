@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace fboAPI.Data
 {
-    public class LinksContext : DbContext
+    public class NewCustomersContext : DbContext
     {
-        public LinksContext (DbContextOptions<LinksContext> options)
+        public NewCustomersContext(DbContextOptions<NewCustomersContext> options)
             : base(options)
         {
         }
 
-        public DbSet<fboAPI.Models.CustomerLink> CustomerLink { get; set; }
+        public DbSet<fboAPI.Models.NewCustomer> NewCustomer { get; set; }
     }
 }

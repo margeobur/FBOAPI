@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace fboAPI.Data
 {
-    public class LinksSeedData
+    public class SeedData
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {

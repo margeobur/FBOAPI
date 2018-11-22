@@ -28,7 +28,7 @@ namespace fboAPI
                 {
                     var context = services.GetRequiredService<LinksContext>();
                     context.Database.Migrate();
-                    LinksSeedData.Initialize(services);
+                    SeedData.Initialize(services);
                 }
                 catch (Exception ex)
                 {
