@@ -131,6 +131,7 @@ namespace fboAPI.Controllers
             if(combinedLink.NewC != null)
             {
                 combinedLink.NewC.Id = Guid.NewGuid().ToString();
+                combinedLink.Link.NewID = combinedLink.NewC.Id;
                 _newContext.NewCustomer.Add(combinedLink.NewC);
                 await _newContext.SaveChangesAsync();
             }
@@ -138,6 +139,7 @@ namespace fboAPI.Controllers
             if(combinedLink.OldC != null)
             {
                 combinedLink.OldC.Id = _oldContext.OldCustomer.Count() + 1;
+                combinedLink.Link.OldID = combinedLink.OldC.Id;
                 _oldContext.OldCustomer.Add(combinedLink.OldC);
                 await _oldContext.SaveChangesAsync();
             }
