@@ -8,8 +8,8 @@ using fboAPI.Data;
 namespace fboAPI.Migrations.OldCustomers
 {
     [DbContext(typeof(OldCustomersContext))]
-    [Migration("20181122230442_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20181123212534_ReaddingOldC")]
+    partial class ReaddingOldC
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

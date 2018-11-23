@@ -2,7 +2,7 @@
 
 namespace fboAPI.Migrations.OldCustomers
 {
-    public partial class InitialCreate : Migration
+    public partial class ReaddingOldC : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

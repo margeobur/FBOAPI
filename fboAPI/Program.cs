@@ -33,7 +33,7 @@ namespace fboAPI
                     newContext.Database.Migrate();
 
                     var oldContext = services.GetRequiredService<OldCustomersContext>();
-                    context.Database.Migrate();
+                    oldContext.Database.Migrate();
 
                     SeedData.Initialize(services);
                 }
