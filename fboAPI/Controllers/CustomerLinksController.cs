@@ -14,13 +14,13 @@ namespace fboAPI.Controllers
     [ApiController]
     public class CustomerLinksController : ControllerBase
     {
-        private readonly LinksContext _context;
+        private readonly LinksContext _linkContext;
         private readonly NewCustomersContext _newContext;
         private readonly OldCustomersContext _oldContext;
 
         public CustomerLinksController(LinksContext context, NewCustomersContext newContext, OldCustomersContext oldContext)
         {
-            _context = context;
+            _linkContext = context;
             _newContext = newContext;
             _oldContext = oldContext;
         }
@@ -29,8 +29,17 @@ namespace fboAPI.Controllers
         [HttpGet]
         public IEnumerable<CombinedLink> GetCombinedLink()
         {
+            List<CombinedLink> allCustomerData = new List<CombinedLink>();
+
+            int numberTaken = 0;
+            foreach (CustomerLink link in _linkContext.CustomerLink)
+            {
+                allCustomerData.Add(GetFullLinkFromContexts(link));
+                if (numberTaken++ == 100)
+                    break;
+            }
             //return _context.CustomerLink;
-            return new List<CombinedLink>();
+            return allCustomerData;
         }
 
         // GET: api/CustomerLinks/5
@@ -42,7 +51,7 @@ namespace fboAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var customerLink = await _context.CustomerLink.FindAsync(id);
+            var customerLink = await _linkContext.CustomerLink.FindAsync(id);
 
             if (customerLink == null)
             {
@@ -66,11 +75,11 @@ namespace fboAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(combinedLink).State = EntityState.Modified;
+            _linkContext.Entry(combinedLink).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _linkContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -96,8 +105,8 @@ namespace fboAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.CustomerLink.Add(combinedLink.Link);
-            await _context.SaveChangesAsync();
+            _linkContext.CustomerLink.Add(combinedLink.Link);
+            await _linkContext.SaveChangesAsync();
 
             return CreatedAtAction("GetCustomerLink", new { id = combinedLink.Link.ID }, combinedLink);
         }
@@ -111,21 +120,51 @@ namespace fboAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var customerLink = await _context.CustomerLink.FindAsync(id);
+            var customerLink = await _linkContext.CustomerLink.FindAsync(id);
             if (customerLink == null)
             {
                 return NotFound();
             }
 
-            _context.CustomerLink.Remove(customerLink);
-            await _context.SaveChangesAsync();
+            _linkContext.CustomerLink.Remove(customerLink);
+            await _linkContext.SaveChangesAsync();
 
             return Ok(customerLink);
         }
 
         private bool CustomerLinkExists(Guid id)
         {
-            return _context.CustomerLink.Any(e => e.ID == id);
+            return _linkContext.CustomerLink.Any(e => e.ID == id);
+        }
+
+        private CombinedLink GetFullLinkFromContexts(CustomerLink bareCustomerLink)
+        {
+            NewCustomer newCustomerData = null;
+            if (bareCustomerLink.NewID != null)
+            {
+                IQueryable<NewCustomer> filteredContext =
+                    _newContext.NewCustomer.Where(x => x.Id == bareCustomerLink.NewID);
+                if (filteredContext.Count() == 1)
+                    newCustomerData = filteredContext.Single();
+            }
+
+            OldCustomer oldCustomerData = null;
+            if (bareCustomerLink.OldID != -1)
+            {
+                IQueryable<OldCustomer> filteredContext =
+                    _oldContext.OldCustomer.Where(x => x.Id == bareCustomerLink.OldID);
+                if (filteredContext.Count() == 1)
+                    oldCustomerData = filteredContext.Single();
+            }
+
+            CombinedLink fullLink = new CombinedLink
+            {
+                Link = bareCustomerLink,
+                OldC = oldCustomerData,
+                NewC = newCustomerData
+            };
+
+            return fullLink;
         }
     }
 }

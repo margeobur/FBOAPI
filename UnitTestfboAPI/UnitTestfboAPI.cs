@@ -129,11 +129,67 @@ namespace UnitTestfboAPI
             };
         }
 
-        //[TestMethod]
-        //public async Task TestRegularGetCorrectResult()
-        //{
+        [TestMethod]
+        public void TestRegularGetCorrectResult()
+        {
+            using (var linksContext = new LinksContext(linksOptions))
+            {
+                CustomerLink customerLink0 = linksContext.CustomerLink.Where(x => x.NewID == newIDs[0]).Single();
+                CustomerLink customerLink1a = linksContext.CustomerLink.Where(x => x.OldID == oldIDs[1]).Single();
+                CustomerLink customerLink1b = linksContext.CustomerLink.Where(x => x.NewID == newIDs[1]).Single();
 
-        //}
+                CombinedLink customerData0 = GetFullLinkFromContexts(customerLink0);
+                CombinedLink customerData1a = GetFullLinkFromContexts(customerLink1a);
+                CombinedLink customerData1b = GetFullLinkFromContexts(customerLink1b);
+
+                NewCustomersContext newContext = new NewCustomersContext(newCOptions);
+                OldCustomersContext oldContext = new OldCustomersContext(oldCOptions);
+                CustomerLinksController linksController = new CustomerLinksController(linksContext, newContext, oldContext);
+                IEnumerable<CombinedLink> customers = linksController.GetCombinedLink();
+
+                newContext.Dispose();
+                oldContext.Dispose();
+
+                bool[] foundCustomer = new bool[3];
+                foundCustomer[0] = false;
+                foundCustomer[1] = false;
+                foundCustomer[2] = false;
+
+                System.Console.WriteLine("Looking for customers...");
+                System.Diagnostics.Debug.WriteLine("Looking for customers...");
+
+                foreach (CombinedLink customer in customers)
+                {
+                    System.Diagnostics.Debug.WriteLine("Customer found:");
+                    System.Console.WriteLine("Customer found");
+
+                    if (customer.Equals(customerData0))
+                    {
+                        foundCustomer[0] = true;
+                    }
+                    else if(customer.Equals(customerData1a))
+                    {
+                        foundCustomer[1] = true;
+                    }
+                    else if(customer.Equals(customerData1b))
+                    {
+                        foundCustomer[2] = true;
+                    }
+                }
+
+                if(!foundCustomer[0])
+                    Assert.Fail("There was no data for Elon Musk");
+
+                if(!foundCustomer[1])
+                    Assert.Fail("There was no old data for Jimmy Wales");
+
+                if(!foundCustomer[2])
+                    Assert.Fail("There was no new data for Jimmy Wales");
+
+                if (customers.Count() != 3)
+                    Assert.Fail("There were more than 3 customer links");
+            };
+        }
 
         //[TestMethod]
         //public async Task TestRegularGetCorrectContent()
@@ -218,13 +274,25 @@ namespace UnitTestfboAPI
             NewCustomer newCustomerData = null;
             using (NewCustomersContext newContext = new NewCustomersContext(newCOptions))
             {
-                newCustomerData = newContext.NewCustomer.Where(x => x.Id == bareCustomerLink.NewID).Single();
+                if (bareCustomerLink.NewID != null)
+                {
+                    IQueryable<NewCustomer> filteredContext = 
+                        newContext.NewCustomer.Where(x => x.Id == bareCustomerLink.NewID);
+                    if (filteredContext.Count() == 1)
+                        newCustomerData = filteredContext.Single();
+                }
             }
 
             OldCustomer oldCustomerData = null;
             using (OldCustomersContext oldContext = new OldCustomersContext(oldCOptions))
             {
-                oldCustomerData = oldContext.OldCustomer.Where(x => x.Id == bareCustomerLink.OldID).Single();
+                if (bareCustomerLink.OldID != null)
+                {
+                    IQueryable<OldCustomer> filteredContext = 
+                        oldContext.OldCustomer.Where(x => x.Id == bareCustomerLink.OldID);
+                    if(filteredContext.Count() == 1)
+                        oldCustomerData = filteredContext.Single();
+                }
             }
 
             CombinedLink fullLink = new CombinedLink
