@@ -157,6 +157,8 @@ namespace fboAPI.Controllers
                     oldCustomerData = filteredContext.Single();
             }
 
+            System.Diagnostics.Debug.WriteLine("Id: " /*+ oldCustomerData.Id*/);
+
             CombinedLink fullLink = new CombinedLink
             {
                 Link = bareCustomerLink,

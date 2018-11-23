@@ -30,6 +30,8 @@ namespace fboAPI.Data
                         Address = "Los Angeles",
                     }
                 );
+
+                context.SaveChanges();
             }
 
             using (var context = new NewCustomersContext(
@@ -49,6 +51,8 @@ namespace fboAPI.Data
                         Email = "emusk@gmail.com"
                     }
                 );
+
+                context.SaveChanges();
             }
 
             using (var context = new LinksContext(
