@@ -15,7 +15,7 @@ namespace fboAPI.Models
 
         // Learnt how to wrap a list of primitives like this from this stackoverflow post:
         // https://stackoverflow.com/questions/20711986/entity-framework-code-first-cant-store-liststring/20712012
-        private List<String> _givenNames { get; set; }
+        private List<String> _givenNames { get; set; } = new List<string>();
 
         [NotMapped]
         public List<string> GivenNames

@@ -28,6 +28,13 @@ namespace fboAPI
                 {
                     var context = services.GetRequiredService<LinksContext>();
                     context.Database.Migrate();
+
+                    var newContext = services.GetRequiredService<NewCustomersContext>();
+                    newContext.Database.Migrate();
+
+                    var oldContext = services.GetRequiredService<OldCustomersContext>();
+                    context.Database.Migrate();
+
                     SeedData.Initialize(services);
                 }
                 catch (Exception ex)

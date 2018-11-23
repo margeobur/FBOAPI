@@ -29,7 +29,8 @@ namespace fboAPI.Controllers
         [HttpGet]
         public IEnumerable<CombinedLink> GetCombinedLink()
         {
-            return _context.CustomerLink;
+            //return _context.CustomerLink;
+            return new List<CombinedLink>();
         }
 
         // GET: api/CustomerLinks/5
@@ -53,19 +54,19 @@ namespace fboAPI.Controllers
 
         // PUT: api/CustomerLinks/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCombinedLink([FromRoute] Guid id, [FromBody] CombinedLink customerLink)
+        public async Task<IActionResult> PutCombinedLink([FromRoute] Guid id, [FromBody] CombinedLink combinedLink)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != customerLink.ID)
+            if (id != combinedLink.Link.ID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(customerLink).State = EntityState.Modified;
+            _context.Entry(combinedLink).State = EntityState.Modified;
 
             try
             {
@@ -88,17 +89,17 @@ namespace fboAPI.Controllers
 
         // POST: api/CustomerLinks
         [HttpPost]
-        public async Task<IActionResult> PostCombinedLink([FromBody] CombinedLink customerLink)
+        public async Task<IActionResult> PostCombinedLink([FromBody] CombinedLink combinedLink)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.CustomerLink.Add(customerLink);
+            _context.CustomerLink.Add(combinedLink.Link);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCustomerLink", new { id = customerLink.ID }, customerLink);
+            return CreatedAtAction("GetCustomerLink", new { id = combinedLink.Link.ID }, combinedLink);
         }
 
         // DELETE: api/CustomerLinks/5

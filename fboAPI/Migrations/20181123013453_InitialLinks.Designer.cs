@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using fboAPI.Data;
 
 namespace fboAPI.Migrations
 {
     [DbContext(typeof(LinksContext))]
-    partial class LinksContextModelSnapshot : ModelSnapshot
+    [Migration("20181123013453_InitialLinks")]
+    partial class InitialLinks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
