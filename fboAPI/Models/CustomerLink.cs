@@ -10,10 +10,9 @@ namespace fboAPI.Models
     public class CustomerLink
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid ID { set; get; }
+        public string ID { set; get; }
 
         public int OldID { get; set; } = -1;
-        public String NewID { get; set; }
+        public string NewID { get; set; } = "";
     }
 }

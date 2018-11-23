@@ -274,7 +274,7 @@ namespace UnitTestfboAPI
             NewCustomer newCustomerData = null;
             using (NewCustomersContext newContext = new NewCustomersContext(newCOptions))
             {
-                if (bareCustomerLink.NewID != null)
+                if (bareCustomerLink.NewID != "")
                 {
                     IQueryable<NewCustomer> filteredContext = 
                         newContext.NewCustomer.Where(x => x.Id == bareCustomerLink.NewID);
@@ -286,7 +286,7 @@ namespace UnitTestfboAPI
             OldCustomer oldCustomerData = null;
             using (OldCustomersContext oldContext = new OldCustomersContext(oldCOptions))
             {
-                if (bareCustomerLink.OldID != null)
+                if (bareCustomerLink.OldID != -1)
                 {
                     IQueryable<OldCustomer> filteredContext = 
                         oldContext.OldCustomer.Where(x => x.Id == bareCustomerLink.OldID);
