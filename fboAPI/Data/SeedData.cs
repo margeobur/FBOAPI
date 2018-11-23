@@ -15,34 +15,29 @@ namespace fboAPI.Data
             using (var context = new OldCustomersContext(
                 serviceProvider.GetRequiredService<DbContextOptions<OldCustomersContext>>()))
             {
-                if(context.OldCustomer.Count() > 0)
+                if(context.OldCustomer.Count() == 0)
                 {
-                    return;
+                    context.OldCustomer.AddRange(
+                       new OldCustomer
+                       {
+                           Id = 1643788,
+                           Username = "emusk10",
+                           FirstName = "Elon",
+                           Surname = "Musk",
+                           Address = "Los Angeles",
+                       }
+                   );
+
+                    context.SaveChanges();
                 }
-
-                context.OldCustomer.AddRange(
-                    new OldCustomer
-                    {
-                        Id = 1643788,
-                        Username = "emusk10",
-                        FirstName = "Elon",
-                        Surname = "Musk",
-                        Address = "Los Angeles",
-                    }
-                );
-
-                context.SaveChanges();
             }
 
             using (var context = new NewCustomersContext(
                 serviceProvider.GetRequiredService<DbContextOptions<NewCustomersContext>>()))
             {
-                if (context.NewCustomer.Count() > 0)
+                if (context.NewCustomer.Count() == 0)
                 {
-                    return;
-                }
-
-                context.NewCustomer.AddRange(
+                    context.NewCustomer.AddRange(
                     new NewCustomer
                     {
                         Id = "0015-7983-2945",
@@ -52,27 +47,27 @@ namespace fboAPI.Data
                     }
                 );
 
-                context.SaveChanges();
+                    context.SaveChanges();
+                }
             }
 
             using (var context = new LinksContext(
                 serviceProvider.GetRequiredService<DbContextOptions<LinksContext>>()))
             {
-                if(context.CustomerLink.Count() > 0)
+                if(context.CustomerLink.Count() == 0)
                 {
-                    return;
-                }
-
-                context.CustomerLink.AddRange(
+                    context.CustomerLink.AddRange(
                     new CustomerLink
                     {
+                        ID = Guid.NewGuid().ToString(),
                         OldID = 1643788,
                         NewID = "0015-7983-2945"
                     }
                 );
 
-            context.SaveChanges();
+                    context.SaveChanges();
+                }
+            }
         }
     }
-}
 }

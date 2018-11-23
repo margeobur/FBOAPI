@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace fboAPI.Migrations
 {
-    public partial class InitialLinks : Migration
+    public partial class AddingAgain : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +10,7 @@ namespace fboAPI.Migrations
                 name: "CustomerLink",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(nullable: false),
+                    ID = table.Column<string>(nullable: false),
                     OldID = table.Column<int>(nullable: false),
                     NewID = table.Column<string>(nullable: true)
                 },
